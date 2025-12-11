@@ -1,19 +1,20 @@
 import requests
 
 def getOperator(Operator):
-    response = requests.get(f"https://awedtan.ca/api/operator/hellagur{Operator.lower()}")
+    response = requests.get(f"https://api.rhodesapi.com/api/operator/{Operator.lower()}")
     if response.status_code != 200:
         print("error getting data srry")
-        return "sorry, either operator doesnt exist or trouble fetching data"
+        return "trouble fetching data"
     
     data = response.json()
-    return{
+    return {
         "name": data["name"],
-        "class": data["class"],
-        "archetype": data["archetype"],
-        "skills": data["skills"],
-        "traits": data["traits"],
-        "class": [c["class"]["operator"] for c in data["class"]]
+        "infection_status": data["infection_status"],
+        "rarity": data["rarity"],
+        "biography": data["biography"],
+        "class": [c["name"] for c in data["class"]]
     }
-operator = getOperator("Amiya")
+
+operator = getOperator("ines")
 print(operator)
+
