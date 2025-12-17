@@ -1,16 +1,17 @@
 import requests
 
 def getOperator(Operator):
-    response = requests.get(f"https://api.rhodesapi.com/api/operator{Operator.lower()}")
+    response = requests.get(f"https://api.rhodesapi.com/api/search?race=sarkaz&class=guard&tags=dps{Operator.lower()}")
     data = response.json()
+    print(data)
     if response.status_code != 200:
         print("Nothing")
         return "sorry! either operator doesnt exist or error fetching data"
     else:
         return {
-        data
-    }
-operator = getOperator("Flametail")
+            "guard": data["guard"]
+            }
+operator = getOperator("guard")
 
 
 # import requests
@@ -29,6 +30,6 @@ operator = getOperator("Flametail")
 #         "types": [t["type"]["name"] for t in data["types"]]
 #     }
 
-# pokemon = getPoke("sunflora")
+# pokemon = getPoke("umbreon")
 # print(pokemon)     
 
