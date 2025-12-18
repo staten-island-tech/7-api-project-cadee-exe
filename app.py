@@ -1,17 +1,3 @@
-import requests
-
-def getOperator(Operator):
-    response = requests.get(f"https://api.rhodesapi.com/api/search?race=sarkaz&class=guard&tags=dps{Operator.lower()}")
-    data = response.json()
-    print(data)
-    if response.status_code != 200:
-        print("Nothing")
-        return "sorry! either operator doesnt exist or error fetching data"
-    else:
-        return {
-            "guard": data["guard"]
-            }
-operator = getOperator("guard")
 
 
 # import requests
@@ -33,3 +19,30 @@ operator = getOperator("guard")
 # pokemon = getPoke("umbreon")
 # print(pokemon)     
 
+import requests
+
+def getOperator(operator):
+    url = "https://api.rhodesapi.com/api/operator"
+    params= {
+        "race": "sarkaz",
+        "class": "guard",
+        "tags": f"dps,{operator.lower()}"
+    }
+
+    response = requests.get(url, params=params)
+
+    if response.status_code != 200:
+        print("Nothing")
+        return None
+
+    data = response.json()
+    print(data)
+    return data["data"] 
+
+operator = getOperator("guard")
+print(operator)      
+
+get()
+
+import tkinter
+tk = tkinter
