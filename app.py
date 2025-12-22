@@ -44,36 +44,97 @@
 
 
 
-import tkinter
-tk = tkinter
-# Create the main window (like your app's frame)
-window = tk.Tk()
-window.title("Message Reverser") # title at the top of the window
-window.geometry("499x299") # set the size (width x height)
-window.resizable(False, False) # keep it from being resized
+# import tkinter
+# tk = tkinter
+# # Create the main window (like your app's frame)
+# window = tk.Tk()
+# window.title("Message Reverser") # title at the top of the window
+# window.geometry("499x299") # set the size (width x height)
+# window.resizable(False, False) # keep it from being resized
 
-prompt = tk.Label(window, text="Type your message below:",
-font=("Arial", 14))
-prompt.pack(pady=10)
+# prompt = tk.Label(window, text="Type your message below:",
+# font=("Arial", 14))
+# prompt.pack(pady=10)
 
-entry = tk.Entry(window, font=("Arial", 14), width=30)
-entry.pack(pady=5)
-# Label to display the reversed message later
-result_label = tk.Label(window, text="", font=("Arial", 14, "bold"),
-fg="blue")
-result_label.pack(pady=15)
+# entry = tk.Entry(window, font=("Arial", 14), width=30)
+# entry.pack(pady=5)
+# # Label to display the reversed message later
+# result_label = tk.Label(window, text="", font=("Arial", 14, "bold"),
+# fg="blue")
+# result_label.pack(pady=15)
 
-# --- Functionality (what happens when you click the button) ---
-def reverse_message():
-    text = entry.get() # get whatever the user typed
-    reversed_text = text[::-1] # slice trick to reverse a string
-    result_label.config(text=f"Backwards: {reversed_text}")
-# Button: when clicked, it calls reverse_message()
-reverse_button = tk.Button(window, text="Reverse Message!",
-font=("Arial", 14),
+# # --- Functionality (what happens when you click the button) ---
+# def reverse_message():
+#     text = entry.get() # get whatever the user typed
+#     reversed_text = text[::-1] # slice trick to reverse a string
+#     result_label.config(text=f"Backwards: {reversed_text}")
+# # Button: when clicked, it calls reverse_message()
+# reverse_button = tk.Button(window, text="Reverse Message!",
+# font=("Arial", 14),
 
-command=reverse_message)
+# command=reverse_message)
 
-reverse_button.pack(pady=10)
-# Keeps the window open and waiting for clicks or typing
-window.mainloop()
+# reverse_button.pack(pady=10)
+# # Keeps the window open and waiting for clicks or typing
+# window.mainloop()
+
+import tkinter as tk
+import random
+
+def random_color():
+    return "#{:02x}{:02x}{:02x}".format(
+        random.randint(0, 255),
+        random.randint(0, 255),
+        random.randint(0, 255)
+    )
+
+def generate_palette():
+    for box, label in zip(color_boxes, color_labels):
+        color = random_color()
+        box.config(bg=color)
+        label.config(text=color)
+
+def copy_to_clipboard(color):
+    root.clipboard_clear()
+    root.clipboard_append(color)
+    root.update()
+
+root = tk.Tk()
+root.title("Color Palette Maker")
+root.geometry("500x300")
+root.resizable(False, False)
+
+title = tk.Label(root, text="Color Palette Maker", font=("Arial", 16, "bold"))
+title.pack(pady=10)
+
+palette_frame = tk.Frame(root)
+palette_frame.pack(pady=10)
+
+color_boxes = []
+color_labels = []
+
+for i in range(5):
+    frame = tk.Frame(palette_frame)
+    frame.grid(row=0, column=i, padx=5)
+
+    box = tk.Label(frame, bg="white", width=10, height=5, relief="ridge")
+    box.pack()
+
+    label = tk.Label(frame, text="#FFFFFF", font=("Arial", 10))
+    label.pack()
+
+    box.bind("<Button-1>", lambda e, l=label: copy_to_clipboard(l.cget("text")))
+
+    color_boxes.append(box)
+    color_labels.append(label)
+
+generate_btn = tk.Button(
+    root,
+    text="Generate Palette",
+    font=("Arial", 12),
+    command=generate_palette
+)
+generate_btn.pack(pady=10)
+
+generate_palette()
+root.mainloop()
