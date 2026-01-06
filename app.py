@@ -46,7 +46,7 @@
 import requests
 
 def getOperator(operator):
-    url = f"https://awedtan.ca/api/operator/{operator.lower()}"
+    url = f"https://api.rhodesapi.com/api/operator/ines"
     response = requests.get(url)
 
     print("Status:", response.status_code)
@@ -63,11 +63,11 @@ def getOperator(operator):
         return None
 
     return {
-        "name": data["{name}"],
-        "archetype": data["{archetype}"]
+        "name": data["name"],
+        "rarity": data["rarity"]
     }
 
-operator = getOperator("69447ee8d7ac17dee8d7b5a0")
+operator = getOperator("Ines")
 print(operator)
 
 
